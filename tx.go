@@ -2,6 +2,7 @@ package chain
 
 import (
 	"encoding/json"
+	"strings"
 
 	"github.com/neo4l/x/tool"
 
@@ -62,13 +63,16 @@ func (o *TxReceipt) GetLogData() string {
 	return o.Logs[0].Data
 }
 
-func (o *TxReceipt) GetLogTopics() []string {
+func (o *TxReceipt) GetERC20Tx() []string {
 	if len(o.Logs) < 1 {
 		return nil
 	}
 	for _, log := range o.Logs {
-		if log.TransactionLogIndex == "0x0" {
-			return log.Topics
+		if len(log.Topics) == 3 && log.Topics[0] == "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" {
+			from := strings.Replace(log.Topics[1], "0x000000000000000000000000", "0x", 1)
+			to := strings.Replace(log.Topics[2], "0x000000000000000000000000", "0x", 1)
+			value := tool.HexToIntStr(log.Data)
+			return []string{log.Address, from, to, value}
 		}
 	}
 	return nil

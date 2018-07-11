@@ -194,12 +194,22 @@ func GetBlockTime(url string, blockNum int64) (int64, error) {
 	return tool.AToInt64WithoutErr(block.Timestamp), nil
 }
 
-func GetTopics(nodeURL, txhash string) []string {
+// func GetTopics(nodeURL, txhash string) []string {
+
+// 	reply := TxReceipt{}
+// 	err := GetTxReceipt(nodeURL, txhash, &reply)
+// 	if err != nil {
+// 		return nil
+// 	}
+// 	return reply.GetLogTopics()
+// }
+
+func ParseERC20Tx(nodeURL, txhash string) []string {
 
 	reply := TxReceipt{}
 	err := GetTxReceipt(nodeURL, txhash, &reply)
 	if err != nil {
 		return nil
 	}
-	return reply.GetLogTopics()
+	return reply.GetERC20Tx()
 }
