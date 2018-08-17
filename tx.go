@@ -98,6 +98,19 @@ func (o *TxObj) ToJson() []byte {
 	}
 }
 
+func (tx *TxObj) SignTx(privateKey string) (string, string, error) {
+
+	signedTx, err := tx.Sign(privateKey)
+	if err != nil {
+		return "", "", err
+	}
+	txb, err := rlp.EncodeToBytes(signedTx)
+	if err != nil {
+		return "", "", err
+	}
+	return signedTx.Hash().Hex(), common.Bytes2Hex(txb), nil
+}
+
 func (tx *TxObj) SignedData(privateKey string) (string, error) {
 
 	signedTx, err := tx.Sign(privateKey)
