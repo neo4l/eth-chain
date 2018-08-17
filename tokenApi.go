@@ -34,7 +34,7 @@ func BalanceOfWithBlock(url, tokenAddress, accountAddress, defaultBlock string) 
 
 func Transfer(url, tokenAddress, to, value, nonce, gasLimit, gasPrice, privateKey string) (hash string, err error) {
 
-	signedData, err := SignCallWithNonce(privateKey, nonce, gasLimit, gasPrice, TokenContractABI, tokenAddress, "transfer", common.HexToAddress(to), tool.HexToBigInt(value))
+	_, signedData, err := SignCallWithNonce(privateKey, nonce, gasLimit, gasPrice, TokenContractABI, tokenAddress, "transfer", common.HexToAddress(to), tool.HexToBigInt(value))
 	//log.Printf("signedData: %s, %s", signedData, err)
 	if err != nil {
 		return "", err
@@ -45,7 +45,7 @@ func Transfer(url, tokenAddress, to, value, nonce, gasLimit, gasPrice, privateKe
 
 func TransferFrom(url, tokenAddress, from, to, value, nonce, gasLimit, gasPrice, privateKey string) (hash string, err error) {
 
-	signedData, err := SignCallWithNonce(privateKey, nonce, gasLimit, gasPrice, TokenContractABI, tokenAddress, "transferFrom", common.HexToAddress(from), common.HexToAddress(to), tool.HexToBigInt(value))
+	_, signedData, err := SignCallWithNonce(privateKey, nonce, gasLimit, gasPrice, TokenContractABI, tokenAddress, "transferFrom", common.HexToAddress(from), common.HexToAddress(to), tool.HexToBigInt(value))
 	//log.Printf("Transfer: %s, %s", signedData, err)
 	if err != nil {
 		return "", err
@@ -58,7 +58,7 @@ func TransferFrom(url, tokenAddress, from, to, value, nonce, gasLimit, gasPrice,
 
 func Approve(url, tokenAddress, spender, value, nonce, gasLimit, gasPrice, privateKey string) (hash string, err error) {
 
-	signedData, err := SignCallWithNonce(privateKey, nonce, gasLimit, gasPrice, TokenContractABI, tokenAddress, "approve", common.HexToAddress(spender), tool.HexToBigInt(value))
+	_, signedData, err := SignCallWithNonce(privateKey, nonce, gasLimit, gasPrice, TokenContractABI, tokenAddress, "approve", common.HexToAddress(spender), tool.HexToBigInt(value))
 	//log.Printf("Transfer: %s, %s", signedData, err)
 	if err != nil {
 		return "", err

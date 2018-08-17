@@ -60,21 +60,21 @@ func CallWithBlock(url, jsonAbi, contractAddress, defaultBlock, functionName str
 // 	return SignCallWithNonce(privateKey, nonce, conf.Default_GasLimit, conf.Default_GasPrice, jsonAbi, contractAddress, functionName, args...)
 // }
 
-func SignCallWithNonce(privateKey, nonce, gasLimit, gasPrice, jsonAbi, contractAddress, functionName string, args ...interface{}) (string, error) {
+func SignCallWithNonce(privateKey, nonce, gasLimit, gasPrice, jsonAbi, contractAddress, functionName string, args ...interface{}) (string, string, error) {
 
 	abiObj, err := abi.JSON(strings.NewReader(jsonAbi))
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 	dataByte, err := abiObj.Pack(functionName, args...)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 	txObj := NewTxObj(nonce, contractAddress, "", gasLimit, gasPrice, common.Bytes2Hex(dataByte))
 	txObj.GasLimit = gasLimit
 	txObj.GasPrice = gasPrice
 
-	return txObj.SignedData(privateKey)
+	return txObj.SignTx(privateKey)
 }
 
 func TxData(jsonAbi, functionName string, args ...interface{}) (string, error) {
