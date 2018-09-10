@@ -79,6 +79,14 @@ func GetBalanceWithBlock(url, address string, block interface{}) (result string,
 	return reply, er
 }
 
+func GetTransaction(url, txHash string) (result interface{}, err error) {
+	var reply interface{}
+	var params = [1]string{}
+	params[0] = txHash
+	er := jsonrpc2.Call(url, "eth_getTransactionByHash", params, &reply)
+	return reply, er
+}
+
 func GetTransactionCount(url, address string) (result string, err error) {
 	var reply string
 	var params = [2]string{}
